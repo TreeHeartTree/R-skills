@@ -1,0 +1,7 @@
+library(ISLR)
+names(Smarket)
+dim(Smarket)
+summary(Smarket)
+cor(Smarket[, -9])
+attach(Smarket)
+plot(Volume)
