@@ -43,3 +43,39 @@ mean(glm.pred3 == Direction.2005)
 mean(glm.pred3 != Direction.2005)
 # predict additional data points
 predict(glm.fit3, newdata = data.frame(Lag1 = c(1.2, 1.5), Lag2 = c(1.1, -0.8)), type = "response")
+
+# LDA / Naive Bayes 
+library(MASS)
+lda.fit <- lda(Direction ~ Lag1 + Lag2, data = Smarket, subset = train)
+lda.fit
+summary(lda.fit)
+'''
+Prior probabilities of groups:
+    Down       Up 
+0.491984 0.508016 
+'''
+plot(lda.fit)
+lda.pred <- predict(lda.fit, Smarket.2005)
+names(lda.pred)
+lda.class <- lda.pred$class
+table(lda.class, Direction.2005)
+mean(lda.class == Direction.2005) # 56% accurate prediction
+
+# QDA model
+qda.fit <- qda(Direction ~ Lag1 + Lag2, data = Smarket,
+               family = binomial, subset = train)
+qda.fit
+'''
+Prior probabilities of groups:
+    Down       Up 
+0.491984 0.508016 
+
+Group means:
+            Lag1        Lag2
+Down  0.04279022  0.03389409
+Up   -0.03954635 -0.03132544
+'''
+qda.pred <- predict(qda.fit, Smarket.2005)
+qda.class <- qda.pred$class
+table(qda.class, Direction.2005)
+mean(qda.class == Direction.2005) #60% accurate prediction
