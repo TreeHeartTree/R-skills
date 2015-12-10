@@ -79,3 +79,13 @@ qda.pred <- predict(qda.fit, Smarket.2005)
 qda.class <- qda.pred$class
 table(qda.class, Direction.2005)
 mean(qda.class == Direction.2005) #60% accurate prediction
+
+# KNN classifier
+library(class)
+train.X <- cbind(Lag1, Lag2)[train, ]
+test.X <- cbind(Lag1, Lag2)[!train, ]
+train.class <- Direction[train]
+set.seed(1)
+knn.pred <- knn(train.X, test.X, train.class, k = 3)
+table(knn.pred, Direction.2005)
+mean(knn.pred == Direction.2005)
