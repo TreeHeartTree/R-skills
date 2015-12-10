@@ -89,3 +89,38 @@ set.seed(1)
 knn.pred <- knn(train.X, test.X, train.class, k = 3)
 table(knn.pred, Direction.2005)
 mean(knn.pred == Direction.2005)
+
+# Caravan insuarance application
+attach(Caravan)
+dim(Caravan)
+summary(Purchase)
+standardized.X <- scale(Caravan[, -86])
+test <- 1:1000
+train.X <- standardized.X[-test, ]
+test.X <- standardized.X[test,]
+train.Y <- Purchase[-test]
+test.Y <- Purchase[test]
+
+set.seed(1)
+knn.pred <- knn(train.X, test.X, train.Y, k = 5)
+mean(knn.pred == test.Y)
+mean(knn.pred != test.Y)
+table(knn.pred, test.Y)
+'''
+        test.Y
+knn.pred  No Yes
+     No  873  50
+    Yes  68   9
+'''
+
+# Logistic regression on Caravan
+glm.fit <- glm(Purchase ~ ., data = Caravan, family = binomial, subset = -test)
+glm.probs <- predict(glm.fit, Caravan[test, ], type = "response")
+glm.pred <- rep("No", 1000)
+glm.pred[glm.probs > 0.5] = "Yes"
+table(glm.pred, test.Y)
+
+glm.pred <- rep("No", 1000)
+glm.pred[glm.probs > 0.25] = "Yes"
+table(glm.pred, test.Y) # 33.3% accurate for "yes"
+mean(glm.pred == test.Y) # 93% overall accuracy
