@@ -46,4 +46,17 @@ for (i in 1:10000) {
 hist(k) 
 shapiro.test(sample(k, 4999)) # it is normal dist now
 
-#
+# skewness
+skew <- function(x) {
+  m3 <- sum((x - mean(x))^3)/length(x)
+  s3 <- sqrt(var(x))^3
+  return (m3/s3)
+}
+skew(y)
+# kurtosis
+kurtosis <- function(x) {
+  m4 <- sum((x - mean(x))^4)/length(x)
+  s4 <- sqrt(var(x))^4
+  return (m4/s4 - 3)
+}
+kurtosis(y)
