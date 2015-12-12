@@ -60,3 +60,22 @@ kurtosis <- function(x) {
   return (m4/s4 - 3)
 }
 kurtosis(y)
+
+# two samples test - variance test
+fisher.ftest <- function(x, y) {
+  df.x <- length(x) - 1
+  df.y <- length(y) - 1
+  var.x <- var(x)
+  var.y <- var(y)
+  f.ratio <- max(var.x, var.y)/min(var.x, var.y)
+  return (round(2 * (1 - pf(f.ratio, max(df.x, df.y), min(df.x, df.y))), 4))
+}
+set.seed(2)
+x1 <- sample(1000, 50, replace = T)
+x2 <- sample(1000, 50, replace = F)
+X <- c(x1, x2)
+f <- factor(rep(c("a", "b"), c(50, 50)))
+
+var.test(x1, x2) # fisher f test (var1 = var2?)
+bartlett.test(X ~ f) # bartlett test (var1 = var2 = var3 ...?)
+fligner.test(X ~ f) # fligner test (var1 = var2 = var3 ...?)
