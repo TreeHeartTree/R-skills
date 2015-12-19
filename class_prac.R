@@ -124,3 +124,27 @@ glm.pred <- rep("No", 1000)
 glm.pred[glm.probs > 0.25] = "Yes"
 table(glm.pred, test.Y) # 33.3% accurate for "yes"
 mean(glm.pred == test.Y) # 93% overall accuracy
+
+############# Hypothesis testing by Coutney Brown
+library(gmodels)
+democracy <- read.table("democracy.txt", header = TRUE)
+panel80 <- read.table("panel80.txt", header = TRUE)
+usparty <- read.table("usparty.txt", header = TRUE)
+
+names(panel80)
+mynewdata <- panel80[which(panel80$VOTE <= 2), ]
+mynewdata$incomecategories <- ifelse(mynewdata$INC < mean(mynewdata$INC, na.rm = TRUE), 1, 2)
+CrossTable(mynewdata$SEX, mynewdata$VOTE, chisq = TRUE, expected = TRUE, format = "SAS")
+CrossTable(mynewdata$incomecategories, mynewdata$VOTE, chisq = TRUE, expected = TRUE)
+
+
+
+
+
+
+
+
+
+
+
+
