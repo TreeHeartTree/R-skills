@@ -137,12 +137,15 @@ mynewdata$incomecategories <- ifelse(mynewdata$INC < mean(mynewdata$INC, na.rm =
 CrossTable(mynewdata$SEX, mynewdata$VOTE, chisq = TRUE, expected = TRUE, format = "SAS")
 CrossTable(mynewdata$incomecategories, mynewdata$VOTE, chisq = TRUE, expected = TRUE)
 
+##
+attach(mtcars)
+library(class)
+library(lattice)
+with(mtcars, xyplot(wt ~ mpg, groups = cyl, auto.key = T, pch = 20, cex = 3))
+train <- cbind(mpg, wt)
+test <- c(26, 2.2)
 
-
-
-
-
-
+knn(train, test, cl = cyl, k = 2, prob = T)
 
 
 
