@@ -147,7 +147,16 @@ test <- c(26, 2.2)
 
 knn(train, test, cl = cyl, k = 2, prob = T)
 
+## 
+library(MASS)
+car.lda <- lda(data = mtcars, cyl ~ wt + mpg)
+car.lda
+plot(car.lda)
 
-
-
-
+wt <- c(2.2, 4, 1.1, 5)
+mpg = c(26, 20, 27, 15)
+clss = c(4, 6, 4, 8)
+test = data.frame(wt, mpg, clss)
+car.predict <- predict(car.lda, newdata = test[, c(1, 2)])$class
+car.predict
+table(car.predict, test[, 3])
